@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Love Note</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff0f3;
+            overflow: hidden;
+        }
+
+        .box img {
+            width: 180px;
+            border-radius: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .text h1 {
+            color: #ff4d6d;
+            font-size: 2.5rem;
+            margin: 20px 0;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            height: 60px;
+            align-items: center;
+        }
+
+        .btny {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* YES BUTTON: Pulsing animation */
+        #yes {
+            background-color: #ff4d6d;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* NO BUTTON: Transitions for smooth-ish movement */
+        #no {
+            background-color: #594d5b;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Success State */
+        #result {
+            display: none;
+            text-align: center;
+            animation: popIn 0.6s cubic-bezier(0.17, 0.67, 0.83, 1.67);
+        }
+
+        #result img {
+            width: 250px;
+            border-radius: 20px;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 77, 109, 0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Shaking effect when "No" moves */
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-content">
+        <div class="box">
+            <img id="img" src="/AabNO.jpg" alt="Heart Image" />
+        </div>
+
+        <div class="text">
+            <h1 id="tex">Do You Love Me?</h1>
+        </div>
+
+        <div class="btn-container">
+            <button class="btny" id="yes">Yes</button>
+            <button class="btny" id="no">No</button>
+        </div>
+    </div>
+
+    <div id="result">
+        <img src="/BRf9XuQBoUNcB3Kwa1xE4LKRFo3UkBgW0EM9ElmJ.png" alt="Happy">
+        <h1 style="color: #ff4d6d;">I knew it! ❤️</h1>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById("no");
+        const btnYes = document.getElementById("yes");
+        const resultDiv = document.getElementById("result");
+        const mainContent = document.getElementById("main-content");
+
+        btnNo.addEventListener("click", () => {
+            // Calculate random position
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+
+            // Apply movement
+            btnNo.style.position = "absolute";
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+
+            // Add shake animation class
+            btnNo.classList.add("shake");
+            
+            // Remove shake class after animation finishes so it can trigger again
+            setTimeout(() => {
+                btnNo.classList.remove("shake");
+            }, 300);
+        });
+
+        btnYes.addEventListener("click", () => {
+            mainContent.style.display = "none";
+            resultDiv.style.display = "block";
+        });
+    </script>
+</body>
+</html>
