@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>My Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgba(0, 242, 255, 0.786);
+            font-size: 2rem;
+            min-height: 100vh;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .contenter {
+            transition: opacity 0.5s ease;
+            font-size: 1.7rem;
+            font-family: fantasy;
+        }
+
+        .yes,
+        .no {
+            margin: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .yes {
+            background-color: #4CAF50;
+            height: 50px;
+            width: 150px;
+        }
+
+        .no {
+            background-color: #f44336;
+            height: 50px;
+            width: 150px;
+        }
+
+        .yes:hover,
+        .no:hover {
+            opacity: 0.9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .image-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            transition: opacity 0.5s ease;
+        }
+
+        .image-container.show {
+            display: flex;
+        }
+
+        .image-container img {
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+        }
+
+        .message {
+            font-size: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5rem;
+            font-family: fantasy;
+        }
+
+        .radio-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .radio-container input[type="radio"] {
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenter">
+        <h1 class="h1">Can you love me a little plss😗😊?</h1>
+        <img id="emoji" src="https://i.pinimg.com/originals/3d/09/03/3d0903721a3ad33cbf4c6d14c33bd7db.gif" alt="yay">
+        <div class="buttons">
+            <button class="yes" onclick="handleYes()">YES</button>
+            <button class="no" onclick="handleNo()">NO</button>
+        </div>
+    </div>
+
+    <div class="radio-container" id="radio-container">
+        <input type="radio" id="yes-radio" name="response" />
+        <label for="yes-radio">Yes Radio</label><br>
+        <input type="radio" id="no-radio" name="response" />
+        <label for="no-radio">No Radio</label>
+    </div>
+
+    <div class="image-container" id="image-slide">
+        <div class="message">I love you too 😍🙃</div>
+        <img src="https://i.pinimg.com/originals/15/b9/f0/15b9f062639f187bdcef2a3c91f7ee95.gif" alt="Surprise">
+    </div>
+
+    <audio id="happy-sound" src="happy.mp3"></audio>
+    <audio id="sad-sound" src="sad.mp3"></audio>
+
+    <script>
+        const happySound = document.getElementById('happy-sound');
+        const sadSound = document.getElementById('sad-sound');
+
+        function stopAllSounds() {
+            happySound.pause();
+            happySound.currentTime = 0;
+            sadSound.pause();
+            sadSound.currentTime = 0;
+        }
+
+        function playSound(sound) {
+            stopAllSounds();
+            sound.play();
+        }
+
+        function handleYes() {
+            const contenter = document.querySelector('.contenter');
+            const imageSlide = document.getElementById('image-slide');
+            const radioContainer = document.getElementById('radio-container');
+
+            contenter.style.opacity = 0;
+            setTimeout(() => {
+                contenter.classList.add('hidden');
+                imageSlide.classList.add('show');
+                radioContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    imageSlide.style.opacity = 1;
+                }, 10); // Small delay for smooth transition
+            }, 500); // Match this duration with CSS transition
+
+            playSound(happySound); // Play the happy sound
+        }
+
+        function handleNo() {
+            const noButton = document.querySelector('.no');
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+
+            // Show radio container on "NO" button click
+            const radioContainer = document.getElementById('radio-container');
+            radioContainer.classList.remove('hidden');
+
+            playSound(sadSound); // Play the sad sound
+        }
+    </script>
+</body>
+
+</html>
